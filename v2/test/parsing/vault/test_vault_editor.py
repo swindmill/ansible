@@ -1,3 +1,24 @@
+# (c) 2014, James Tanner <tanner.jc@gmail.com>
+# (c) 2014, James Cammarata, <jcammarata@ansible.com>
+#
+# This file is part of Ansible
+#
+# Ansible is free software: you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation, either version 3 of the License, or
+# (at your option) any later version.
+#
+# Ansible is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with Ansible.  If not, see <http://www.gnu.org/licenses/>.
+
+# Make coding more python3-ish
+from __future__ import (absolute_import, division, print_function)
+__metaclass__ = type
 #!/usr/bin/env python
 
 import getpass
@@ -97,9 +118,9 @@ class TestVaultEditor(unittest.TestCase):
 
         # make sure the password functions for the cipher
         error_hit = False
-        try:        
+        try:
             ve.decrypt_file()
-        except errors.AnsibleError, e:
+        except errors.AnsibleError as e:
             error_hit = True
 
         # verify decrypted content
@@ -125,9 +146,9 @@ class TestVaultEditor(unittest.TestCase):
 
         # make sure the password functions for the cipher
         error_hit = False
-        try:        
+        try:
             ve.decrypt_file()
-        except errors.AnsibleError, e:
+        except errors.AnsibleError as e:
             error_hit = True
 
         # verify decrypted content
@@ -155,7 +176,7 @@ class TestVaultEditor(unittest.TestCase):
         error_hit = False
         try:        
             ve.rekey_file('ansible2')
-        except errors.AnsibleError, e:
+        except errors.AnsibleError as e:
             error_hit = True
 
         # verify decrypted content
@@ -171,7 +192,7 @@ class TestVaultEditor(unittest.TestCase):
         error_hit = False
         try:
             dec_data = vl.decrypt(fdata)
-        except errors.AnsibleError, e:
+        except errors.AnsibleError as e:
             error_hit = True
 
         os.unlink(v10_file.name)

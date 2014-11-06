@@ -1,4 +1,4 @@
-# (c) 2012-2014, Michael DeHaan <michael.dehaan@gmail.com>
+# (c) 2014, Brian Coca, Josh Drake, et al
 #
 # This file is part of Ansible
 #
@@ -15,6 +15,27 @@
 # You should have received a copy of the GNU General Public License
 # along with Ansible.  If not, see <http://www.gnu.org/licenses/>.
 
-# Make coding more python3-ish
-from __future__ import (absolute_import, division, print_function)
-__metaclass__ = type
+import exceptions
+
+class BaseCacheModule(object):
+
+    def get(self, key):
+        raise exceptions.NotImplementedError
+
+    def set(self, key, value):
+        raise exceptions.NotImplementedError
+
+    def keys(self):
+        raise exceptions.NotImplementedError
+
+    def contains(self, key):
+        raise exceptions.NotImplementedError
+
+    def delete(self, key):
+        raise exceptions.NotImplementedError
+
+    def flush(self):
+        raise exceptions.NotImplementedError
+
+    def copy(self):
+        raise exceptions.NotImplementedError

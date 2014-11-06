@@ -1,4 +1,4 @@
-# (c) 2012-2014, Michael DeHaan <michael.dehaan@gmail.com>
+# (c) 2014, Brian Coca, Josh Drake, et al
 #
 # This file is part of Ansible
 #
@@ -15,6 +15,30 @@
 # You should have received a copy of the GNU General Public License
 # along with Ansible.  If not, see <http://www.gnu.org/licenses/>.
 
-# Make coding more python3-ish
-from __future__ import (absolute_import, division, print_function)
-__metaclass__ = type
+from ansible.plugins.cache.base import BaseCacheModule
+
+class CacheModule(BaseCacheModule):
+
+    def __init__(self, *args, **kwargs):
+        self._cache = {}
+
+    def get(self, key):
+        return self._cache.get(key)
+
+    def set(self, key, value):
+        self._cache[key] = value
+
+    def keys(self):
+        return self._cache.keys()
+
+    def contains(self, key):
+        return key in self._cache
+
+    def delete(self, key):
+        del self._cache[key]
+
+    def flush(self):
+        self._cache = {}
+
+    def copy(self):
+        return self._cache.copy()

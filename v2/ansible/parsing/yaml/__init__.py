@@ -71,7 +71,7 @@ class DataLoader():
                 # if loading JSON failed for any reason, we go ahead
                 # and try to parse it as YAML instead
                 return self._safe_load(data)
-            except YAMLError, yaml_exc:
+            except YAMLError as yaml_exc:
                 self._handle_error(yaml_exc, file_name, show_content)
 
     def load_from_file(self, file_name):
@@ -80,7 +80,7 @@ class DataLoader():
         # if the file has already been read in and cached, we'll
         # return those results to avoid more file/vault operations
         if file_name in self._FILE_CACHE:
-            return self._FILE_CACHE
+            return self._FILE_CACHE[file_name]
 
         # read the file contents and load the data structure from them
         (file_data, show_content) = self._get_file_contents(file_name)
@@ -91,6 +91,15 @@ class DataLoader():
 
         return parsed_data
 
+    def path_exists(self, path):
+        return os.path.exists(path)
+
+    def is_directory(self, path):
+        return os.path.isdir(path)
+
+    def is_file(self, path):
+        return os.path.isfile(path)
+
     def _safe_load(self, stream):
         ''' Implements yaml.safe_load(), except using our custom loader class. '''
         return load(stream, AnsibleLoader)
@@ -100,7 +109,7 @@ class DataLoader():
         Reads the file contents from the given file name, and will decrypt them
         if they are found to be vault-encrypted.
         '''
-        if not os.path.exists(file_name) or not os.path.isfile(file_name):
+        if not self.path_exists(file_name) or not self.is_file(file_name):
             raise AnsibleParserError("the file_name '%s' does not exist, or is not readable" % file_name)
 
         show_content = True

@@ -402,7 +402,7 @@ support formatting with some special macros.
 These formatting functions are ``U()``, ``M()``, ``I()``, and ``C()``
 for URL, module, italic, and constant-width respectively. It is suggested
 to use ``C()`` for file and option names, and ``I()`` when referencing
-parameters; module names should be specifies as ``M(module)``.
+parameters; module names should be specified as ``M(module)``.
 
 Examples (which typically contain colons, quotes, etc.) are difficult
 to format with YAML, so these must be
@@ -464,6 +464,23 @@ the program.   Stop by the mailing list to inquire about requirements if you lik
 a github pull request to the `extras <https://github.com/ansible/ansible-modules-extras>`_ project.
 Included modules will ship with ansible, and also have a change to be promoted to 'core' status, which
 gives them slightly higher development priority (though they'll work in exactly the same way).
+
+
+Deprecating and making module aliases
+``````````````````````````````````````
+
+Starting in 1.8 you can deprecate modules by renaming them with a preceeding _, i.e. old_cloud.py to 
+_old_cloud.py, This will keep the module available but hide it from the primary docs and listing.
+
+You can also rename modules and keep an alias to the old name by using a symlink that starts with _.
+This example allows the stat module to be called with fileinfo, making the following examples equivalent
+
+    EXAMPLES = '''
+    ln -s stat.py _fileinfo.py
+    ansible -m stat -a "path=/tmp" localhost
+    ansible -m fileinfo -a "path=/tmp" localhost
+    '''
+
 
 .. seealso::
 
